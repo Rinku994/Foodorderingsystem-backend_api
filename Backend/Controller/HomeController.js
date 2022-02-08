@@ -27,3 +27,60 @@ const HomeCarouselSilder = (req, res = response) => {
 
 
 }
+
+
+const ListProductsHome = async (req, res = response) => {
+
+
+    Products.find({})
+        .populate('category_id', 'category')
+        .exec((err, productsdb) => {
+            if (err) {
+                return res.status(500).json({
+                    resp: false,
+                    msj: 'Error: Without List Products'
+                });
+            }
+
+            res.json({
+                resp: true,
+                msj: 'List Products Home',
+                products: productsdb
+            });
+
+        });
+}
+
+
+const ListCategoriesAll = async (req, res = response) => {
+
+
+    Category.find({})
+        .exec((err, listCategories) => {
+
+            if (err) {
+                return res.status(400).json({
+                    resp: false,
+                    msj: "error: Without List of Categories",
+                    err
+                });
+            }
+
+            res.json({
+                resp: true,
+                msj: 'List Categories All',
+                categories: listCategories
+            });
+
+        });
+}
+
+
+
+
+module.exports = {
+    HomeCarouselSilder,
+    ListCategoriesHome,
+    ListProductsHome,
+    ListCategoriesAll
+}
